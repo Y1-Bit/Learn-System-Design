@@ -1,0 +1,28 @@
+# CODEOWNERS — auto-assign reviewers on pull requests
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default: project maintainer reviews everything
+* @Y1-Bit
+
+# Frontend components & pages
+/src/components/ @Y1-Bit
+/src/pages/ @Y1-Bit
+/src/features/ @Y1-Bit
+
+# Study content & data
+/src/data/ @Y1-Bit
+
+# Internationalization / translations
+/src/i18n/ @Y1-Bit
+/src/data/ru/ @Y1-Bit
+
+# Build & config
+/vite.config.ts @Y1-Bit
+/tsconfig*.json @Y1-Bit
+/package.json @Y1-Bit
+
+# Community & docs
+/CONTRIBUTING.md @Y1-Bit
+/CODE_OF_CONDUCT.md @Y1-Bit
+/SECURITY.md @Y1-Bit
+/.github/ @Y1-Bit
