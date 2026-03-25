@@ -1,5 +1,6 @@
 import type { QuizQuestion } from '../../types';
 import { useLanguage } from '../../i18n';
+import { isAnswerCorrect } from '../../utils/quiz';
 
 interface ScoreBoardProps {
   score: { correct: number; total: number };
@@ -20,17 +21,6 @@ export default function ScoreBoard({
   const pct = score.total > 0 ? Math.round((score.correct / score.total) * 100) : 0;
   const passed = pct >= 70;
   const hasWrong = score.correct < score.total;
-
-  const isCorrect = (q: QuizQuestion): boolean => {
-    const a = answers[q.id];
-    if (q.type === 'multiple-choice') return a === q.correctAnswer;
-    if (q.type === 'true-false') return a === q.correctAnswer;
-    if (q.type === 'matching' && Array.isArray(a)) {
-      const correctOrder = q.pairs.map((p) => p.right);
-      return JSON.stringify(a) === JSON.stringify(correctOrder);
-    }
-    return false;
-  };
 
   return (
     <div className="space-y-6">
@@ -53,7 +43,7 @@ export default function ScoreBoard({
           {t.score_results}
         </h3>
         {questions.map((q, i) => {
-          const correct = isCorrect(q);
+          const correct = isAnswerCorrect(q, answers[q.id]);
           return (
             <div
               key={q.id}

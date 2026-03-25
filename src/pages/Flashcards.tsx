@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
-import FlashcardDeck from '../features/flashcard/FlashcardDeck';
+import { FlashcardDeck } from '../features/flashcard';
 import { useTranslatedData } from '../hooks/useTranslatedData';
 import { useLanguage } from '../i18n';
 import { useProgress } from '../hooks/useProgress';

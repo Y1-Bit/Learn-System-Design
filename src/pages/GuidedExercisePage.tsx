@@ -2,7 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useProgress } from '../hooks/useProgress';
 import { useTranslatedData } from '../hooks/useTranslatedData';
 import { useLanguage } from '../i18n';
-import GuidedExercise from '../features/sandbox/GuidedExercise';
+import { GuidedExercise } from '../features/sandbox';
 import DifficultyBadge from '../components/DifficultyBadge';
 
 export default function GuidedExercisePage() {
