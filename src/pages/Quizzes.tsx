@@ -1,12 +1,12 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { Category, Difficulty } from '../types';
-import type { Translations } from '../i18n';
+import { DIFF_KEYS } from '../constants';
 import { useLanguage } from '../i18n';
 import { useTranslatedData } from '../hooks/useTranslatedData';
 import { useProgress } from '../hooks/useProgress';
 import Sidebar from '../components/Sidebar';
-import QuizEngine from '../features/quiz/QuizEngine';
+import { QuizEngine } from '../features/quiz';
 
 /** Map topicId to category based on known topic prefixes / ids */
 const TOPIC_CATEGORY: Record<string, Category> = {
@@ -47,12 +47,6 @@ const TOPIC_CATEGORY: Record<string, Category> = {
   'bloom-filters': 'patterns',
   'consistent-hashing': 'patterns',
   'gossip-protocol': 'patterns',
-};
-
-const DIFF_KEYS: Record<Difficulty, keyof Translations> = {
-  1: 'diff_beginner',
-  2: 'diff_intermediate',
-  3: 'diff_advanced',
 };
 
 const DIFFICULTY_OPTIONS: (Difficulty | null)[] = [null, 1, 2, 3];

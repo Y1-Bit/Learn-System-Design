@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import type { QuizQuestion } from '../types';
+import { isAnswerCorrect } from '../utils/quiz';
 
 type QuizState = 'idle' | 'active' | 'answered' | 'complete';
 
@@ -28,13 +29,7 @@ export function useQuizEngine(questions: QuizQuestion[]) {
     if (currentIndex + 1 >= shuffled.length) {
       let correct = 0;
       shuffled.forEach((q) => {
-        const a = answers[q.id];
-        if (q.type === 'multiple-choice' && a === q.correctAnswer) correct++;
-        if (q.type === 'true-false' && a === q.correctAnswer) correct++;
-        if (q.type === 'matching' && Array.isArray(a)) {
-          const correctOrder = q.pairs.map((p) => p.right);
-          if (JSON.stringify(a) === JSON.stringify(correctOrder)) correct++;
-        }
+        if (isAnswerCorrect(q, answers[q.id])) correct++;
       });
       setScore({ correct, total: shuffled.length });
       setState('complete');
@@ -45,16 +40,7 @@ export function useQuizEngine(questions: QuizQuestion[]) {
   }, [currentIndex, shuffled, answers]);
 
   const retryWrong = useCallback(() => {
-    const wrong = shuffled.filter((q) => {
-      const a = answers[q.id];
-      if (q.type === 'multiple-choice') return a !== q.correctAnswer;
-      if (q.type === 'true-false') return a !== q.correctAnswer;
-      if (q.type === 'matching' && Array.isArray(a)) {
-        const correctOrder = q.pairs.map((p) => p.right);
-        return JSON.stringify(a) !== JSON.stringify(correctOrder);
-      }
-      return true;
-    });
+    const wrong = shuffled.filter((q) => !isAnswerCorrect(q, answers[q.id]));
     if (wrong.length === 0) return;
     setShuffled(wrong);
     setCurrentIndex(0);
