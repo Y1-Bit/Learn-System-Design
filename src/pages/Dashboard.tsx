@@ -3,21 +3,9 @@ import { Link } from 'react-router-dom';
 import { useProgress } from '../hooks/useProgress';
 import { useTranslatedData } from '../hooks/useTranslatedData';
 import { useLanguage } from '../i18n';
-import type { Translations } from '../i18n';
-import { CATEGORY_COLORS } from '../types';
+import { CATEGORY_COLORS, CAT_KEYS } from '../constants';
 import type { Category } from '../types';
 import ProgressBar from '../components/ProgressBar';
-
-const CAT_KEYS: Record<Category, keyof Translations> = {
-  networking: 'cat_networking',
-  storage: 'cat_storage',
-  caching: 'cat_caching',
-  scaling: 'cat_scaling',
-  reliability: 'cat_reliability',
-  messaging: 'cat_messaging',
-  security: 'cat_security',
-  patterns: 'cat_patterns',
-};
 
 const TOTAL_EXERCISES = 10;
 

@@ -2,20 +2,8 @@ import { Link } from 'react-router-dom';
 import Canvas from '../features/sandbox/Canvas';
 import { useTranslatedData } from '../hooks/useTranslatedData';
 import { useLanguage } from '../i18n';
-import type { Translations } from '../i18n';
+import { DIFF_KEYS, DIFFICULTY_STYLES } from '../constants';
 import type { Difficulty } from '../types';
-
-const DIFFICULTY_COLORS: Record<number, string> = {
-  1: 'bg-green-600/20 text-green-400',
-  2: 'bg-yellow-600/20 text-yellow-400',
-  3: 'bg-red-600/20 text-red-400',
-};
-
-const DIFF_KEYS: Record<Difficulty, keyof Translations> = {
-  1: 'diff_beginner',
-  2: 'diff_intermediate',
-  3: 'diff_advanced',
-};
 
 export default function Sandbox() {
   const { t } = useLanguage();
@@ -43,7 +31,7 @@ export default function Sandbox() {
               >
                 <span>{ex.title}</span>
                 <span
-                  className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${DIFFICULTY_COLORS[ex.difficulty] ?? ''}`}
+                  className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${DIFFICULTY_STYLES[ex.difficulty as Difficulty]}`}
                 >
                   {t[DIFF_KEYS[ex.difficulty as Difficulty]]}
                 </span>
