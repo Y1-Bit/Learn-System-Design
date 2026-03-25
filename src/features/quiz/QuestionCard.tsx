@@ -24,5 +24,7 @@ export default function QuestionCard(props: QuestionCardProps) {
     return <MatchingCard {...props} question={question} />;
   }
 
+  const _exhaustive: never = question;
+  void _exhaustive;
   return null;
 }

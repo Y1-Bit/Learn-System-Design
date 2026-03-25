@@ -31,7 +31,7 @@ export default function Sandbox() {
               >
                 <span>{ex.title}</span>
                 <span
-                  className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${DIFFICULTY_STYLES[ex.difficulty as Difficulty]}`}
+                  className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${DIFFICULTY_STYLES[ex.difficulty as Difficulty] ?? ''}`}
                 >
                   {t[DIFF_KEYS[ex.difficulty as Difficulty]]}
                 </span>
