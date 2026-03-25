@@ -1,4 +1,5 @@
 import type { QuizQuestion } from '../../types';
+import { useLanguage } from '../../i18n';
 
 interface ScoreBoardProps {
   score: { correct: number; total: number };
@@ -15,6 +16,7 @@ export default function ScoreBoard({
   onRetryWrong,
   onReset,
 }: ScoreBoardProps) {
+  const { t } = useLanguage();
   const pct = score.total > 0 ? Math.round((score.correct / score.total) * 100) : 0;
   const passed = pct >= 70;
   const hasWrong = score.correct < score.total;
@@ -38,17 +40,17 @@ export default function ScoreBoard({
           <span className={passed ? 'text-green-400' : 'text-red-400'}>{pct}%</span>
         </div>
         <p className="text-lg text-gray-300">
-          {score.correct} / {score.total} correct
+          {score.correct} / {score.total} {t.score_correct}
         </p>
         <p className={`mt-2 text-sm font-medium ${passed ? 'text-green-400' : 'text-red-400'}`}>
-          {passed ? 'Great job! You passed!' : 'Keep practicing -- you need 70% to pass.'}
+          {passed ? t.score_passed : t.score_failed}
         </p>
       </div>
 
       {/* Question results */}
       <div className="space-y-2">
         <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-500">
-          Question Results
+          {t.score_results}
         </h3>
         {questions.map((q, i) => {
           const correct = isCorrect(q);
@@ -84,14 +86,14 @@ export default function ScoreBoard({
             onClick={onRetryWrong}
             className="rounded-lg border border-purple-500/30 bg-purple-500/10 px-6 py-2.5 text-sm font-medium text-purple-300 transition-colors hover:bg-purple-500/20"
           >
-            Retry Wrong Answers
+            {t.score_retry}
           </button>
         )}
         <button
           onClick={onReset}
           className="rounded-lg border border-[#2a2a4a] bg-[#1a1a2e] px-6 py-2.5 text-sm font-medium text-gray-300 transition-colors hover:bg-[#2a2a4a]"
         >
-          Back to Quizzes
+          {t.score_back}
         </button>
       </div>
     </div>

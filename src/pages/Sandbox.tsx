@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import Canvas from '../features/sandbox/Canvas';
-import { exercises } from '../data/exercises';
-import { DIFFICULTY_LABELS } from '../types';
+import { useTranslatedData } from '../hooks/useTranslatedData';
+import { useLanguage } from '../i18n';
+import type { Translations } from '../i18n';
+import type { Difficulty } from '../types';
 
 const DIFFICULTY_COLORS: Record<number, string> = {
   1: 'bg-green-600/20 text-green-400',
@@ -9,7 +11,16 @@ const DIFFICULTY_COLORS: Record<number, string> = {
   3: 'bg-red-600/20 text-red-400',
 };
 
+const DIFF_KEYS: Record<Difficulty, keyof Translations> = {
+  1: 'diff_beginner',
+  2: 'diff_intermediate',
+  3: 'diff_advanced',
+};
+
 export default function Sandbox() {
+  const { t } = useLanguage();
+  const { exercises } = useTranslatedData();
+
   return (
     <div className="flex flex-col h-[calc(100vh-64px)]">
       {/* Canvas takes most of the vertical space */}
@@ -21,7 +32,7 @@ export default function Sandbox() {
       {exercises.length > 0 && (
         <div className="border-t border-[#2a2a4a] bg-[#16162a] p-4">
           <h2 className="mb-3 text-sm font-semibold text-gray-300">
-            Guided Exercises
+            {t.sandbox_guided_exercises}
           </h2>
           <div className="flex flex-wrap gap-3">
             {exercises.map((ex) => (
@@ -34,7 +45,7 @@ export default function Sandbox() {
                 <span
                   className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${DIFFICULTY_COLORS[ex.difficulty] ?? ''}`}
                 >
-                  {DIFFICULTY_LABELS[ex.difficulty]}
+                  {t[DIFF_KEYS[ex.difficulty as Difficulty]]}
                 </span>
               </Link>
             ))}

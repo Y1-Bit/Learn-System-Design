@@ -1,15 +1,9 @@
 import { useDraggable } from '@dnd-kit/core';
-import { sandboxComponentDefs } from '../../data/sandbox-components';
+import { useTranslatedData } from '../../hooks/useTranslatedData';
+import { useLanguage } from '../../i18n';
 import type { SandboxComponentDef } from '../../types';
 
 const CATEGORY_ORDER = ['compute', 'storage', 'network', 'messaging'] as const;
-
-const CATEGORY_LABELS: Record<string, string> = {
-  compute: 'Compute',
-  storage: 'Storage',
-  network: 'Network',
-  messaging: 'Messaging',
-};
 
 function PaletteItem({ def }: { def: SandboxComponentDef }) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
@@ -32,9 +26,19 @@ function PaletteItem({ def }: { def: SandboxComponentDef }) {
 }
 
 export default function ComponentPalette() {
+  const { t } = useLanguage();
+  const { sandboxComponentDefs } = useTranslatedData();
+
+  const SANDBOX_CAT_LABELS: Record<string, string> = {
+    compute: t.sandbox_compute,
+    storage: t.sandbox_storage,
+    network: t.sandbox_network,
+    messaging: t.sandbox_messaging,
+  };
+
   const grouped = CATEGORY_ORDER.map((cat) => ({
     category: cat,
-    label: CATEGORY_LABELS[cat],
+    label: SANDBOX_CAT_LABELS[cat],
     items: sandboxComponentDefs.filter((d) => d.category === cat),
   }));
 
@@ -44,7 +48,7 @@ export default function ComponentPalette() {
       style={{ backgroundColor: '#1a1a2e' }}
     >
       <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-400">
-        Components
+        {t.sandbox_components}
       </h2>
       {grouped.map((g) => (
         <div key={g.category}>

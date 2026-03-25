@@ -2,12 +2,14 @@ import { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import FlashcardDeck from '../features/flashcard/FlashcardDeck';
-import { flashcards } from '../data/flashcards';
-import { allTopics } from '../data/topics';
+import { useTranslatedData } from '../hooks/useTranslatedData';
+import { useLanguage } from '../i18n';
 import { useProgress } from '../hooks/useProgress';
 import type { Category } from '../types';
 
 export default function Flashcards() {
+  const { t } = useLanguage();
+  const { flashcards, allTopics } = useTranslatedData();
   const [searchParams, setSearchParams] = useSearchParams();
   const initialCategory = searchParams.get('category') as Category | null;
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(initialCategory);
@@ -20,13 +22,13 @@ export default function Flashcards() {
       map[t.id] = t.category;
     }
     return map;
-  }, []);
+  }, [allTopics]);
 
   // Filter flashcards by selected category
   const filteredCards = useMemo(() => {
     if (!selectedCategory) return flashcards;
     return flashcards.filter((fc) => topicCategoryMap[fc.topicId] === selectedCategory);
-  }, [selectedCategory, topicCategoryMap]);
+  }, [selectedCategory, topicCategoryMap, flashcards]);
 
   const handleCategorySelect = (cat: Category | null) => {
     setSelectedCategory(cat);
@@ -42,12 +44,12 @@ export default function Flashcards() {
       <Sidebar selected={selectedCategory} onSelect={handleCategorySelect} />
 
       <main className="flex-1 overflow-y-auto p-8">
-        <h1 className="mb-6 text-2xl font-bold text-gray-100">Flashcards</h1>
+        <h1 className="mb-6 text-2xl font-bold text-gray-100">{t.flashcards_title}</h1>
 
         {filteredCards.length === 0 ? (
           <div className="flex min-h-[300px] items-center justify-center rounded-xl border border-[#2a2a4a] bg-[#1a1a2e] p-8">
             <p className="text-center text-gray-400">
-              No cards match your filters. Try broadening your selection.
+              {t.flashcards_no_match}
             </p>
           </div>
         ) : (

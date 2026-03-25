@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { QuizQuestion } from '../../types';
+import { useLanguage } from '../../i18n';
 
 interface QuestionCardProps {
   question: QuizQuestion;
@@ -16,6 +17,7 @@ function MultipleChoiceCard({
   userAnswer,
   onNext,
 }: QuestionCardProps & { question: Extract<QuizQuestion, { type: 'multiple-choice' }> }) {
+  const { t } = useLanguage();
   const selected = userAnswer as string | undefined;
 
   return (
@@ -53,7 +55,7 @@ function MultipleChoiceCard({
       {answered && (
         <div className="rounded-lg border border-[#2a2a4a] bg-[#16162a] p-4">
           <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-500">
-            Explanation
+            {t.quiz_explanation}
           </p>
           <p className="text-sm text-gray-300">{question.explanation}</p>
         </div>
@@ -64,7 +66,7 @@ function MultipleChoiceCard({
           onClick={onNext}
           className="rounded-lg bg-purple-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-purple-500"
         >
-          Next
+          {t.quiz_next}
         </button>
       )}
     </div>
@@ -78,6 +80,7 @@ function TrueFalseCard({
   userAnswer,
   onNext,
 }: QuestionCardProps & { question: Extract<QuizQuestion, { type: 'true-false' }> }) {
+  const { t } = useLanguage();
   const selected = userAnswer as boolean | undefined;
 
   const btnStyle = (val: boolean) => {
@@ -106,7 +109,7 @@ function TrueFalseCard({
             onClick={() => onAnswer(question.id, val)}
             className={`flex-1 rounded-lg border px-4 py-3 text-sm font-medium transition-colors ${btnStyle(val)}`}
           >
-            {val ? 'True' : 'False'}
+            {val ? t.quiz_true : t.quiz_false}
           </button>
         ))}
       </div>
@@ -114,7 +117,7 @@ function TrueFalseCard({
       {answered && (
         <div className="rounded-lg border border-[#2a2a4a] bg-[#16162a] p-4">
           <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-500">
-            Explanation
+            {t.quiz_explanation}
           </p>
           <p className="text-sm text-gray-300">{question.explanation}</p>
         </div>
@@ -125,7 +128,7 @@ function TrueFalseCard({
           onClick={onNext}
           className="rounded-lg bg-purple-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-purple-500"
         >
-          Next
+          {t.quiz_next}
         </button>
       )}
     </div>
@@ -139,6 +142,7 @@ function MatchingCard({
   userAnswer,
   onNext,
 }: QuestionCardProps & { question: Extract<QuizQuestion, { type: 'matching' }> }) {
+  const { t } = useLanguage();
   const [selections, setSelections] = useState<string[]>(
     () => new Array(question.pairs.length).fill(''),
   );
@@ -186,7 +190,7 @@ function MatchingCard({
                   {userSelections[idx]}
                   {isWrong && (
                     <span className="ml-2 text-xs text-green-400">
-                      (correct: {correctOrder[idx]})
+                      ({t.quiz_correct_label}: {correctOrder[idx]})
                     </span>
                   )}
                 </span>
@@ -196,7 +200,7 @@ function MatchingCard({
                   onChange={(e) => handleSelect(idx, e.target.value)}
                   className="flex-1 rounded-lg border border-[#2a2a4a] bg-[#1a1a2e] px-3 py-2 text-sm text-gray-200 outline-none focus:border-purple-500"
                 >
-                  <option value="">Select a match...</option>
+                  <option value="">{t.quiz_select_match}</option>
                   {rightOptions.map((r) => (
                     <option key={r} value={r}>
                       {r}
@@ -215,14 +219,14 @@ function MatchingCard({
           onClick={handleSubmit}
           className="rounded-lg bg-purple-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-purple-500 disabled:cursor-not-allowed disabled:opacity-40"
         >
-          Submit Matches
+          {t.quiz_submit_matches}
         </button>
       )}
 
       {answered && (
         <div className="rounded-lg border border-[#2a2a4a] bg-[#16162a] p-4">
           <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-gray-500">
-            Explanation
+            {t.quiz_explanation}
           </p>
           <p className="text-sm text-gray-300">{question.explanation}</p>
         </div>
@@ -233,7 +237,7 @@ function MatchingCard({
           onClick={onNext}
           className="rounded-lg bg-purple-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-purple-500"
         >
-          Next
+          {t.quiz_next}
         </button>
       )}
     </div>

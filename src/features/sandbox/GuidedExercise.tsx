@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import type { Exercise } from '../../types';
+import { useLanguage } from '../../i18n';
 import ProgressBar from '../../components/ProgressBar';
 
 interface GuidedExerciseProps {
@@ -14,6 +15,7 @@ interface StepAnswer {
 }
 
 export default function GuidedExercise({ exercise, onComplete }: GuidedExerciseProps) {
+  const { t } = useLanguage();
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Record<number, StepAnswer>>({});
   const [showHint, setShowHint] = useState<Record<number, boolean>>({});
@@ -58,23 +60,23 @@ export default function GuidedExercise({ exercise, onComplete }: GuidedExerciseP
       <div className="mx-auto max-w-3xl space-y-8">
         {/* Summary header */}
         <div className="rounded-xl border border-[#2a2a4a] bg-[#1a1a2e] p-8 text-center">
-          <h2 className="mb-2 text-2xl font-bold text-gray-100">Exercise Complete</h2>
+          <h2 className="mb-2 text-2xl font-bold text-gray-100">{t.exercise_complete}</h2>
           <p className="text-4xl font-bold text-purple-400">
             {correctCount} / {totalSteps}
           </p>
-          <p className="mt-1 text-sm text-gray-400">correct answers</p>
+          <p className="mt-1 text-sm text-gray-400">{t.exercise_correct_answers}</p>
           <ProgressBar value={(correctCount / totalSteps) * 100} color="#a855f7" />
         </div>
 
         {/* Review of all steps */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-gray-200">Review</h3>
+          <h3 className="text-lg font-semibold text-gray-200">{t.exercise_review}</h3>
           {steps.map((s, idx) => {
             const answer = answers[idx];
             const selectedOption = answer ? s.options[answer.selectedIndex] : null;
             return (
               <div key={idx} className="rounded-lg border border-[#2a2a4a] bg-[#1a1a2e] p-5">
-                <p className="mb-2 text-sm font-medium text-gray-400">Step {idx + 1}</p>
+                <p className="mb-2 text-sm font-medium text-gray-400">{t.exercise_step} {idx + 1}</p>
                 <p className="mb-3 text-gray-200">{s.prompt}</p>
                 {selectedOption && (
                   <div
@@ -85,13 +87,13 @@ export default function GuidedExercise({ exercise, onComplete }: GuidedExerciseP
                     }`}
                   >
                     <p className="text-sm text-gray-300">
-                      <span className="font-medium text-gray-100">Your answer:</span>{' '}
+                      <span className="font-medium text-gray-100">{t.exercise_your_answer}</span>{' '}
                       {selectedOption.label}
                     </p>
                     <p className="mt-1 text-sm text-gray-400">{selectedOption.explanation}</p>
                     {!answer.correct && (
                       <p className="mt-2 text-sm text-green-400">
-                        Correct answer:{' '}
+                        {t.exercise_correct_answer}{' '}
                         {s.options.find((o) => o.correct)?.label}
                       </p>
                     )}
@@ -107,7 +109,7 @@ export default function GuidedExercise({ exercise, onComplete }: GuidedExerciseP
             to="/sandbox"
             className="inline-block rounded-lg bg-purple-600 px-6 py-3 font-medium text-white transition-colors hover:bg-purple-500"
           >
-            Back to Sandbox
+            {t.exercise_back}
           </Link>
         </div>
       </div>
@@ -123,7 +125,7 @@ export default function GuidedExercise({ exercise, onComplete }: GuidedExerciseP
       <div className="space-y-2">
         <div className="flex items-center justify-between text-sm text-gray-400">
           <span>
-            Step {currentStep + 1} of {totalSteps}
+            {t.exercise_step} {currentStep + 1} {t.exercise_step_of} {totalSteps}
           </span>
           <span>{Math.round(progressPercent)}%</span>
         </div>
@@ -173,7 +175,7 @@ export default function GuidedExercise({ exercise, onComplete }: GuidedExerciseP
             onClick={toggleHint}
             className="text-sm font-medium text-purple-400 transition-colors hover:text-purple-300"
           >
-            {showHint[currentStep] ? 'Hide Hint' : 'Show Hint'}
+            {showHint[currentStep] ? t.exercise_hide_hint : t.exercise_show_hint}
           </button>
           {showHint[currentStep] && (
             <div className="mt-2 rounded-lg bg-purple-500/10 p-4 text-sm text-purple-200">
@@ -193,7 +195,7 @@ export default function GuidedExercise({ exercise, onComplete }: GuidedExerciseP
           }`}
         >
           <p className="mb-1 font-medium">
-            {currentAnswer.correct ? 'Correct!' : 'Incorrect'}
+            {currentAnswer.correct ? t.exercise_correct : t.exercise_incorrect}
           </p>
           <p>{step.options[currentAnswer.selectedIndex].explanation}</p>
         </div>
@@ -206,7 +208,7 @@ export default function GuidedExercise({ exercise, onComplete }: GuidedExerciseP
             onClick={handleNextStep}
             className="rounded-lg bg-purple-600 px-6 py-2.5 font-medium text-white transition-colors hover:bg-purple-500"
           >
-            {currentStep < totalSteps - 1 ? 'Next Step' : 'See Results'}
+            {currentStep < totalSteps - 1 ? t.exercise_next_step : t.exercise_see_results}
           </button>
         </div>
       )}

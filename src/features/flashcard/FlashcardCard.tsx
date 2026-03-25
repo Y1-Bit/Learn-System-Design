@@ -1,3 +1,5 @@
+import { useLanguage } from '../../i18n';
+
 interface FlashcardCardProps {
   front: string;
   back: string;
@@ -6,6 +8,8 @@ interface FlashcardCardProps {
 }
 
 export default function FlashcardCard({ front, back, flipped, onFlip }: FlashcardCardProps) {
+  const { t } = useLanguage();
+
   return (
     <div
       className="mx-auto w-full max-w-[400px] cursor-pointer"
@@ -25,7 +29,7 @@ export default function FlashcardCard({ front, back, flipped, onFlip }: Flashcar
           style={{ backfaceVisibility: 'hidden' }}
         >
           <span className="mb-2 text-xs font-semibold uppercase tracking-wider text-purple-400">
-            Question
+            {t.fc_question}
           </span>
           <p className="text-center text-lg leading-relaxed text-gray-200">{front}</p>
         </div>
@@ -36,7 +40,7 @@ export default function FlashcardCard({ front, back, flipped, onFlip }: Flashcar
           style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
         >
           <span className="mb-2 text-xs font-semibold uppercase tracking-wider text-green-400">
-            Answer
+            {t.fc_answer}
           </span>
           <p className="text-center text-base leading-relaxed text-gray-300">{back}</p>
         </div>

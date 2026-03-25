@@ -1,19 +1,33 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useProgress } from '../hooks/useProgress';
-import { allTopics } from '../data/topics/index';
-import { quizQuestions } from '../data/quizzes';
-import { flashcards } from '../data/flashcards';
-import { CATEGORY_COLORS, CATEGORY_LABELS } from '../types';
+import { useTranslatedData } from '../hooks/useTranslatedData';
+import { useLanguage } from '../i18n';
+import type { Translations } from '../i18n';
+import { CATEGORY_COLORS } from '../types';
 import type { Category } from '../types';
 import ProgressBar from '../components/ProgressBar';
 
-const TOTAL_TOPICS = allTopics.length;
-const TOTAL_FLASHCARDS = flashcards.length;
+const CAT_KEYS: Record<Category, keyof Translations> = {
+  networking: 'cat_networking',
+  storage: 'cat_storage',
+  caching: 'cat_caching',
+  scaling: 'cat_scaling',
+  reliability: 'cat_reliability',
+  messaging: 'cat_messaging',
+  security: 'cat_security',
+  patterns: 'cat_patterns',
+};
+
 const TOTAL_EXERCISES = 10;
 
 export default function Dashboard() {
+  const { t } = useLanguage();
+  const { allTopics, quizQuestions, flashcards } = useTranslatedData();
   const { progress } = useProgress();
+
+  const TOTAL_TOPICS = allTopics.length;
+  const TOTAL_FLASHCARDS = flashcards.length;
 
   const topicsStudiedCount = useMemo(
     () => Object.values(progress.topicsStudied).filter((t) => t.visited).length,
@@ -44,7 +58,7 @@ export default function Dashboard() {
     return visited
       .map((id) => allTopics.find((t) => t.id === id))
       .filter(Boolean) as typeof allTopics;
-  }, [progress.topicsStudied]);
+  }, [progress.topicsStudied, allTopics]);
 
   const hasAnyProgress =
     topicsStudiedCount > 0 ||
@@ -54,22 +68,22 @@ export default function Dashboard() {
 
   const stats = [
     {
-      label: 'Topics Studied',
+      label: t.dashboard_topics_studied,
       value: `${topicsStudiedCount}/${TOTAL_TOPICS}`,
       color: '#7c3aed',
     },
     {
-      label: 'Quiz Score',
+      label: t.dashboard_quiz_score,
       value: quizAverage !== null ? `${quizAverage}%` : '\u2014',
       color: '#10b981',
     },
     {
-      label: 'Cards Mastered',
+      label: t.dashboard_cards_mastered,
       value: `${cardsMastered}/${TOTAL_FLASHCARDS}`,
       color: '#f59e0b',
     },
     {
-      label: 'Exercises Done',
+      label: t.dashboard_exercises_done,
       value: `${exercisesDone}/${TOTAL_EXERCISES}`,
       color: '#3b82f6',
     },
@@ -78,7 +92,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-[#0f0f1a] px-4 py-8 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
-        <h1 className="mb-8 text-3xl font-bold text-gray-200">Dashboard</h1>
+        <h1 className="mb-8 text-3xl font-bold text-gray-200">{t.dashboard_title}</h1>
 
         {/* Stat Cards */}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -99,7 +113,7 @@ export default function Dashboard() {
         {recentTopics.length > 0 && (
           <section className="mt-10">
             <h2 className="mb-4 text-xl font-semibold text-gray-200">
-              Continue Studying
+              {t.dashboard_continue_studying}
             </h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {recentTopics.map((topic) => {
@@ -133,7 +147,7 @@ export default function Dashboard() {
                       {topic.title}
                     </h3>
                     <p className="mb-3 text-sm text-gray-500">
-                      {CATEGORY_LABELS[topic.category as Category] ??
+                      {t[CAT_KEYS[topic.category as Category]] ??
                         topic.category}
                     </p>
                     <ProgressBar
@@ -153,17 +167,16 @@ export default function Dashboard() {
         {!hasAnyProgress && (
           <div className="mt-16 text-center">
             <h2 className="mb-3 text-2xl font-bold text-gray-200">
-              Welcome to SystemPrep!
+              {t.dashboard_welcome}
             </h2>
             <p className="mb-6 text-gray-500">
-              Start by exploring a topic to begin your system design interview
-              prep.
+              {t.dashboard_welcome_text}
             </p>
             <Link
               to="/topics"
               className="inline-block rounded-lg bg-[#7c3aed] px-6 py-3 font-medium text-white transition-colors hover:bg-[#6d28d9]"
             >
-              Browse Topics
+              {t.dashboard_browse_topics}
             </Link>
           </div>
         )}

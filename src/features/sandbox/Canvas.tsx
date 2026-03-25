@@ -5,6 +5,7 @@ import SandboxComponent from './SandboxComponent';
 import ConnectionLines from './ConnectionLines';
 import ComponentPalette from './ComponentPalette';
 import { useLocalStorage } from '../../hooks/useLocalStorage';
+import { useLanguage } from '../../i18n';
 import type {
   SandboxState,
   SandboxComponentInstance,
@@ -43,6 +44,7 @@ function CanvasDropZone({
   onCanvasClick: () => void;
   canvasRef: RefObject<HTMLDivElement | null>;
 }) {
+  const { t } = useLanguage();
   const { setNodeRef, isOver } = useDroppable({ id: 'canvas-drop-zone' });
 
   const mergedRef = useCallback(
@@ -72,7 +74,7 @@ function CanvasDropZone({
       {state.components.length === 0 && (
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <p className="text-gray-600 text-sm">
-            Drag components from the palette to start designing
+            {t.sandbox_drag_hint}
           </p>
         </div>
       )}
@@ -91,6 +93,7 @@ function CanvasDropZone({
 }
 
 export default function Canvas() {
+  const { t } = useLanguage();
   const [state, setState] = useState<SandboxState>(EMPTY_STATE);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [connectMode, setConnectMode] = useState(false);
@@ -117,7 +120,7 @@ export default function Canvas() {
         } else if (connectSourceRef.current !== id) {
           const from = connectSourceRef.current;
           const to = id;
-          const label = window.prompt('Connection label (e.g. HTTP, TCP, gRPC):', '') ?? '';
+          const label = window.prompt(t.sandbox_connection_label, '') ?? '';
           const conn: SandboxConnection = {
             id: `conn-${Date.now()}`,
             from,
@@ -134,7 +137,7 @@ export default function Canvas() {
       }
       setSelectedId(id);
     },
-    [connectMode],
+    [connectMode, t],
   );
 
   const handleDelete = useCallback((id: string) => {
@@ -212,7 +215,7 @@ export default function Canvas() {
   };
 
   const handleSave = () => {
-    const name = window.prompt('Design name:');
+    const name = window.prompt(t.sandbox_design_name);
     if (!name) return;
     const key = name.toLowerCase().replace(/\s+/g, '-');
     setSavedDesigns((prev) => ({
@@ -245,32 +248,32 @@ export default function Canvas() {
             className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors
               ${connectMode ? 'bg-purple-600 text-white' : 'bg-[#2a2a4a]/60 text-gray-300 hover:bg-[#2a2a4a]'}`}
           >
-            {connectMode ? 'Connecting...' : 'Connect'}
+            {connectMode ? t.sandbox_connecting : t.sandbox_connect}
           </button>
           <div className="mx-2 h-4 w-px bg-[#2a2a4a]" />
           <button
             onClick={handleClear}
             className="rounded-lg bg-[#2a2a4a]/60 px-3 py-1.5 text-xs text-gray-300 hover:bg-[#2a2a4a]"
           >
-            Clear Canvas
+            {t.sandbox_clear}
           </button>
           <button
             onClick={handleSave}
             className="rounded-lg bg-[#2a2a4a]/60 px-3 py-1.5 text-xs text-gray-300 hover:bg-[#2a2a4a]"
           >
-            Save Design
+            {t.sandbox_save}
           </button>
           <div className="relative">
             <button
               onClick={() => setLoadMenuOpen((v) => !v)}
               className="rounded-lg bg-[#2a2a4a]/60 px-3 py-1.5 text-xs text-gray-300 hover:bg-[#2a2a4a]"
             >
-              Load Design
+              {t.sandbox_load}
             </button>
             {loadMenuOpen && (
               <div className="absolute left-0 top-full z-50 mt-1 min-w-48 rounded-lg border border-[#2a2a4a] bg-[#1a1a2e] p-1 shadow-xl">
                 {savedEntries.length === 0 ? (
-                  <p className="px-3 py-2 text-xs text-gray-500">No saved designs</p>
+                  <p className="px-3 py-2 text-xs text-gray-500">{t.sandbox_no_saved}</p>
                 ) : (
                   savedEntries.map(([key, d]) => (
                     <button
@@ -290,7 +293,7 @@ export default function Canvas() {
           </div>
           {connectMode && (
             <span className="ml-auto text-[11px] text-purple-400">
-              Click source, then target to connect
+              {t.sandbox_connect_hint}
             </span>
           )}
         </div>

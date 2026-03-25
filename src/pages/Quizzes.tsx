@@ -1,8 +1,9 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import type { Category, Difficulty } from '../types';
-import { DIFFICULTY_LABELS } from '../types';
-import { quizQuestions } from '../data/quizzes';
+import type { Translations } from '../i18n';
+import { useLanguage } from '../i18n';
+import { useTranslatedData } from '../hooks/useTranslatedData';
 import { useProgress } from '../hooks/useProgress';
 import Sidebar from '../components/Sidebar';
 import QuizEngine from '../features/quiz/QuizEngine';
@@ -48,9 +49,17 @@ const TOPIC_CATEGORY: Record<string, Category> = {
   'gossip-protocol': 'patterns',
 };
 
+const DIFF_KEYS: Record<Difficulty, keyof Translations> = {
+  1: 'diff_beginner',
+  2: 'diff_intermediate',
+  3: 'diff_advanced',
+};
+
 const DIFFICULTY_OPTIONS: (Difficulty | null)[] = [null, 1, 2, 3];
 
 export default function Quizzes() {
+  const { t } = useLanguage();
+  const { quizQuestions } = useTranslatedData();
   const [searchParams, setSearchParams] = useSearchParams();
   const { saveQuizScore } = useProgress();
 
@@ -92,7 +101,7 @@ export default function Quizzes() {
       if (selectedDifficulty && q.difficulty !== selectedDifficulty) return false;
       return true;
     });
-  }, [selectedCategory, selectedDifficulty]);
+  }, [selectedCategory, selectedDifficulty, quizQuestions]);
 
   const handleQuizComplete = useCallback(
     (correct: number, total: number) => {
@@ -109,9 +118,9 @@ export default function Quizzes() {
       <main className="flex-1 overflow-y-auto p-8">
         <div className="mx-auto max-w-3xl space-y-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-100">Quizzes</h1>
+            <h1 className="text-2xl font-bold text-gray-100">{t.quizzes_title}</h1>
             <p className="mt-1 text-sm text-gray-400">
-              Test your system design knowledge
+              {t.quizzes_subtitle}
             </p>
           </div>
 
@@ -127,18 +136,18 @@ export default function Quizzes() {
                     : 'text-gray-400 hover:bg-[#1a1a2e] hover:text-gray-200'
                 }`}
               >
-                {diff === null ? 'All' : DIFFICULTY_LABELS[diff]}
+                {diff === null ? t.quizzes_all : t[DIFF_KEYS[diff]]}
               </button>
             ))}
             <span className="ml-auto text-xs text-gray-500">
-              {filtered.length} question{filtered.length !== 1 ? 's' : ''}
+              {filtered.length} {filtered.length !== 1 ? t.quizzes_questions : t.quizzes_question}
             </span>
           </div>
 
           {/* Quiz or empty state */}
           {filtered.length === 0 ? (
             <div className="rounded-xl border border-[#2a2a4a] bg-[#16162a] p-12 text-center">
-              <p className="text-gray-400">No questions match your filters.</p>
+              <p className="text-gray-400">{t.quizzes_no_match}</p>
             </div>
           ) : (
             <QuizEngine

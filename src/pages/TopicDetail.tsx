@@ -3,10 +3,13 @@ import { useParams, Link } from 'react-router-dom';
 import Markdown from 'react-markdown';
 import CategoryTag from '../components/CategoryTag';
 import DifficultyBadge from '../components/DifficultyBadge';
-import { topicById } from '../data/topics';
+import { useTranslatedData } from '../hooks/useTranslatedData';
+import { useLanguage } from '../i18n';
 import { useProgress } from '../hooks/useProgress';
 
 export default function TopicDetail() {
+  const { t } = useLanguage();
+  const { topicById } = useTranslatedData();
   const { topicId } = useParams<{ topicId: string }>();
   const { markTopicVisited } = useProgress();
   const topic = topicId ? topicById(topicId) : undefined;
@@ -20,9 +23,9 @@ export default function TopicDetail() {
   if (!topic) {
     return (
       <div className="p-8">
-        <h1 className="mb-4 text-2xl font-bold text-gray-100">Topic not found</h1>
+        <h1 className="mb-4 text-2xl font-bold text-gray-100">{t.topic_not_found}</h1>
         <Link to="/topics" className="text-purple-400 hover:underline">
-          Back to Topics
+          {t.topic_back}
         </Link>
       </div>
     );
@@ -35,7 +38,7 @@ export default function TopicDetail() {
         to="/topics"
         className="mb-6 inline-flex items-center gap-1 text-sm text-purple-400 hover:underline"
       >
-        &larr; Back to Topics
+        &larr; {t.topic_back}
       </Link>
 
       {/* Header */}
@@ -54,7 +57,7 @@ export default function TopicDetail() {
 
       {/* Explanation */}
       <section className="mb-8">
-        <h2 className="mb-4 text-xl font-semibold text-gray-100">Explanation</h2>
+        <h2 className="mb-4 text-xl font-semibold text-gray-100">{t.topic_explanation}</h2>
         <div className="prose prose-invert max-w-none [&_h2]:text-xl [&_h2]:text-gray-100 [&_h2]:mt-6 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:text-gray-200 [&_h3]:mt-4 [&_h3]:mb-2 [&_p]:text-gray-300 [&_ul]:text-gray-300 [&_li]:text-gray-300 [&_code]:text-purple-400 [&_code]:bg-[#2a2a4a] [&_code]:px-1 [&_code]:rounded [&_pre]:bg-[#1a1a2e] [&_pre]:p-4 [&_pre]:rounded-lg">
           <Markdown>{topic.explanation}</Markdown>
         </div>
@@ -63,7 +66,7 @@ export default function TopicDetail() {
       {/* Key Points */}
       {topic.keyPoints.length > 0 && (
         <section className="mb-8">
-          <h2 className="mb-4 text-xl font-semibold text-gray-100">Key Points</h2>
+          <h2 className="mb-4 text-xl font-semibold text-gray-100">{t.topic_key_points}</h2>
           <ul className="space-y-2">
             {topic.keyPoints.map((point, i) => (
               <li key={i} className="flex items-start gap-3 text-gray-300">
@@ -78,7 +81,7 @@ export default function TopicDetail() {
       {/* Real-World Examples */}
       {topic.realWorld.length > 0 && (
         <section className="mb-8">
-          <h2 className="mb-4 text-xl font-semibold text-gray-100">Real-World Examples</h2>
+          <h2 className="mb-4 text-xl font-semibold text-gray-100">{t.topic_real_world}</h2>
           <div className="space-y-3">
             {topic.realWorld.map((example, i) => (
               <div
@@ -98,7 +101,7 @@ export default function TopicDetail() {
       {/* Interview Tips */}
       {topic.interviewTips.length > 0 && (
         <section className="mb-8">
-          <h2 className="mb-4 text-xl font-semibold text-gray-100">Interview Tips</h2>
+          <h2 className="mb-4 text-xl font-semibold text-gray-100">{t.topic_interview_tips}</h2>
           <div className="space-y-3">
             {topic.interviewTips.map((tip, i) => (
               <div
@@ -118,7 +121,7 @@ export default function TopicDetail() {
       {/* Related Topics */}
       {topic.relatedTopics.length > 0 && (
         <section className="mb-8">
-          <h2 className="mb-4 text-xl font-semibold text-gray-100">Related Topics</h2>
+          <h2 className="mb-4 text-xl font-semibold text-gray-100">{t.topic_related}</h2>
           <div className="flex flex-wrap gap-2">
             {topic.relatedTopics.map((relatedId) => {
               const related = topicById(relatedId);

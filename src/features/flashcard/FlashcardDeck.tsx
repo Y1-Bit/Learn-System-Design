@@ -3,6 +3,7 @@ import FlashcardCard from './FlashcardCard';
 import MasteryControls from './MasteryControls';
 import ProgressBar from '../../components/ProgressBar';
 import DifficultyBadge from '../../components/DifficultyBadge';
+import { useLanguage } from '../../i18n';
 import type { Flashcard, Difficulty } from '../../types';
 
 type MasteryStatus = 'new' | 'learning' | 'mastered';
@@ -14,6 +15,7 @@ interface FlashcardDeckProps {
 }
 
 export default function FlashcardDeck({ cards, statuses, onStatusChange }: FlashcardDeckProps) {
+  const { t } = useLanguage();
   const [index, setIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
   const [difficulty, setDifficulty] = useState<Difficulty | 'all'>('all');
@@ -67,7 +69,7 @@ export default function FlashcardDeck({ cards, statuses, onStatusChange }: Flash
       {/* Filter controls */}
       <div className="flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-2">
-          <label className="text-sm text-gray-400">Difficulty:</label>
+          <label className="text-sm text-gray-400">{t.fc_difficulty}</label>
           <select
             value={difficulty}
             onChange={(e) => {
@@ -77,15 +79,15 @@ export default function FlashcardDeck({ cards, statuses, onStatusChange }: Flash
             }}
             className="rounded-lg border border-[#2a2a4a] bg-[#1a1a2e] px-3 py-1.5 text-sm text-gray-200 outline-none focus:border-purple-500"
           >
-            <option value="all">All</option>
-            <option value="1">Beginner</option>
-            <option value="2">Intermediate</option>
-            <option value="3">Advanced</option>
+            <option value="all">{t.fc_all}</option>
+            <option value="1">{t.fc_beginner}</option>
+            <option value="2">{t.fc_intermediate}</option>
+            <option value="3">{t.fc_advanced}</option>
           </select>
         </div>
 
         <div className="flex items-center gap-2">
-          <label className="text-sm text-gray-400">Show:</label>
+          <label className="text-sm text-gray-400">{t.fc_show}</label>
           <select
             value={masteryFilter}
             onChange={(e) => {
@@ -95,8 +97,8 @@ export default function FlashcardDeck({ cards, statuses, onStatusChange }: Flash
             }}
             className="rounded-lg border border-[#2a2a4a] bg-[#1a1a2e] px-3 py-1.5 text-sm text-gray-200 outline-none focus:border-purple-500"
           >
-            <option value="all">All Cards</option>
-            <option value="unmastered">Unmastered Only</option>
+            <option value="all">{t.fc_all_cards}</option>
+            <option value="unmastered">{t.fc_unmastered}</option>
           </select>
         </div>
       </div>
@@ -104,7 +106,7 @@ export default function FlashcardDeck({ cards, statuses, onStatusChange }: Flash
       {filtered.length === 0 ? (
         <div className="flex min-h-[300px] items-center justify-center rounded-xl border border-[#2a2a4a] bg-[#1a1a2e] p-8">
           <p className="text-center text-gray-400">
-            No cards match your filters. Try broadening your selection.
+            {t.flashcards_no_match}
           </p>
         </div>
       ) : (
@@ -112,7 +114,7 @@ export default function FlashcardDeck({ cards, statuses, onStatusChange }: Flash
           {/* Progress indicator */}
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-400">
-              Card {index + 1} of {filtered.length}
+              {index + 1} {t.fc_card_of} {filtered.length}
             </span>
             {current && <DifficultyBadge difficulty={current.difficulty} />}
           </div>
@@ -124,7 +126,7 @@ export default function FlashcardDeck({ cards, statuses, onStatusChange }: Flash
             <button
               onClick={goPrev}
               className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#2a2a4a] bg-[#1a1a2e] text-gray-400 transition-colors hover:border-purple-500 hover:text-purple-300"
-              aria-label="Previous card"
+              aria-label={t.fc_prev}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -143,7 +145,7 @@ export default function FlashcardDeck({ cards, statuses, onStatusChange }: Flash
             <button
               onClick={goNext}
               className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#2a2a4a] bg-[#1a1a2e] text-gray-400 transition-colors hover:border-purple-500 hover:text-purple-300"
-              aria-label="Next card"
+              aria-label={t.fc_next}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
@@ -158,7 +160,7 @@ export default function FlashcardDeck({ cards, statuses, onStatusChange }: Flash
           />
 
           <p className="text-center text-xs text-gray-600">
-            Use arrow keys to navigate, space to flip
+            {t.fc_keyboard_hint}
           </p>
         </>
       )}

@@ -1,7 +1,20 @@
-import { CATEGORY_LABELS, CATEGORY_COLORS } from '../types';
+import { CATEGORY_COLORS } from '../types';
 import type { Category } from '../types';
+import type { Translations } from '../i18n';
+import { useLanguage } from '../i18n';
 
-const categories = Object.keys(CATEGORY_LABELS) as Category[];
+const CAT_KEYS: Record<Category, keyof Translations> = {
+  networking: 'cat_networking',
+  storage: 'cat_storage',
+  caching: 'cat_caching',
+  scaling: 'cat_scaling',
+  reliability: 'cat_reliability',
+  messaging: 'cat_messaging',
+  security: 'cat_security',
+  patterns: 'cat_patterns',
+};
+
+const categories = Object.keys(CAT_KEYS) as Category[];
 
 interface SidebarProps {
   selected: Category | null;
@@ -9,10 +22,12 @@ interface SidebarProps {
 }
 
 export default function Sidebar({ selected, onSelect }: SidebarProps) {
+  const { t } = useLanguage();
+
   return (
     <aside className="w-56 shrink-0 border-r border-[#2a2a4a] bg-[#16162a] p-4">
       <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
-        Categories
+        {t.sidebar_categories}
       </h2>
 
       <button
@@ -23,7 +38,7 @@ export default function Sidebar({ selected, onSelect }: SidebarProps) {
             : 'text-gray-400 hover:text-gray-200'
         }`}
       >
-        All
+        {t.sidebar_all}
       </button>
 
       {categories.map((cat) => (
@@ -40,7 +55,7 @@ export default function Sidebar({ selected, onSelect }: SidebarProps) {
             className="inline-block h-2.5 w-2.5 rounded-full"
             style={{ backgroundColor: CATEGORY_COLORS[cat] }}
           />
-          {CATEGORY_LABELS[cat]}
+          {t[CAT_KEYS[cat]]}
         </button>
       ))}
     </aside>

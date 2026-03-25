@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import CategoryTag from '../components/CategoryTag';
 import DifficultyBadge from '../components/DifficultyBadge';
-import { allTopics, topicsByCategory } from '../data/topics';
+import { useTranslatedData } from '../hooks/useTranslatedData';
+import { useLanguage } from '../i18n';
 import type { Category, Topic } from '../types';
 
 function TopicCard({ topic }: { topic: Topic }) {
@@ -23,6 +24,8 @@ function TopicCard({ topic }: { topic: Topic }) {
 }
 
 export default function Topics() {
+  const { t } = useLanguage();
+  const { allTopics, topicsByCategory } = useTranslatedData();
   const [category, setCategory] = useState<Category | null>(null);
 
   const filteredTopics = category ? topicsByCategory(category) : allTopics;
@@ -31,7 +34,7 @@ export default function Topics() {
     <div className="flex">
       <Sidebar selected={category} onSelect={setCategory} />
       <main className="flex-1 p-6">
-        <h1 className="mb-6 text-2xl font-bold text-gray-100">System Design Topics</h1>
+        <h1 className="mb-6 text-2xl font-bold text-gray-100">{t.topics_title}</h1>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filteredTopics.map((topic) => (
             <TopicCard key={topic.id} topic={topic} />
