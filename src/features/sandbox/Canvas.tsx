@@ -1,4 +1,4 @@
-import { useCallback, type RefObject } from 'react';
+import { useCallback } from 'react';
 import { DndContext, useDroppable } from '@dnd-kit/core';
 import SandboxComponent from './SandboxComponent';
 import ConnectionLines from './ConnectionLines';
@@ -23,7 +23,7 @@ function CanvasDropZone({
   onSelect: (id: string) => void;
   onDelete: (id: string) => void;
   onCanvasClick: () => void;
-  canvasRef: RefObject<HTMLDivElement | null>;
+  canvasRef: React.MutableRefObject<HTMLDivElement | null>;
 }) {
   const { t } = useLanguage();
   const { setNodeRef, isOver } = useDroppable({ id: 'canvas-drop-zone' });
@@ -31,7 +31,7 @@ function CanvasDropZone({
   const mergedRef = useCallback(
     (node: HTMLDivElement | null) => {
       setNodeRef(node);
-      (canvasRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      canvasRef.current = node;
     },
     [setNodeRef, canvasRef],
   );
