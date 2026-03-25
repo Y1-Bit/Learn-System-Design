@@ -1,0 +1,59 @@
+name: Content Addition
+description: Propose a new topic, quiz question, flashcard, or exercise
+title: "[Content]: "
+labels: ["content"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Want to add study content? Describe it here, or submit a PR directly!
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Content Type
+      options:
+        - New Topic
+        - Quiz Question(s)
+        - Flashcard(s)
+        - Guided Exercise
+        - Translation
+    validations:
+      required: true
+
+  - type: dropdown
+    id: content_category
+    attributes:
+      label: Category
+      options:
+        - Networking
+        - Storage & Databases
+        - Caching
+        - Scaling
+        - Reliability
+        - Messaging
+        - Security
+        - Design Patterns
+        - New Category
+    validations:
+      required: true
+
+  - type: textarea
+    id: content
+    attributes:
+      label: Content Details
+      description: Describe the content you want to add
+      placeholder: |
+        Topic: Rate Limiting Algorithms
+        Difficulty: Intermediate
+        Key concepts: Token bucket, sliding window, fixed window...
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I've checked this topic/content doesn't already exist
+        - label: I'm willing to submit a PR for this
