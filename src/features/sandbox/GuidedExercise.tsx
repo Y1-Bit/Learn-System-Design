@@ -57,8 +57,8 @@ export default function GuidedExercise({ exercise, onComplete }: GuidedExerciseP
     return (
       <div className="mx-auto max-w-3xl space-y-8">
         {/* Summary header */}
-        <div className="rounded-xl bg-[#1a1a2e] p-8 text-center">
-          <h2 className="mb-2 text-2xl font-bold text-white">Exercise Complete</h2>
+        <div className="rounded-xl border border-[#2a2a4a] bg-[#1a1a2e] p-8 text-center">
+          <h2 className="mb-2 text-2xl font-bold text-gray-100">Exercise Complete</h2>
           <p className="text-4xl font-bold text-purple-400">
             {correctCount} / {totalSteps}
           </p>
@@ -73,7 +73,7 @@ export default function GuidedExercise({ exercise, onComplete }: GuidedExerciseP
             const answer = answers[idx];
             const selectedOption = answer ? s.options[answer.selectedIndex] : null;
             return (
-              <div key={idx} className="rounded-lg bg-[#1a1a2e] p-5">
+              <div key={idx} className="rounded-lg border border-[#2a2a4a] bg-[#1a1a2e] p-5">
                 <p className="mb-2 text-sm font-medium text-gray-400">Step {idx + 1}</p>
                 <p className="mb-3 text-gray-200">{s.prompt}</p>
                 {selectedOption && (
@@ -131,7 +131,7 @@ export default function GuidedExercise({ exercise, onComplete }: GuidedExerciseP
       </div>
 
       {/* Prompt */}
-      <div className="rounded-xl bg-[#1a1a2e] p-6">
+      <div className="rounded-xl border border-[#2a2a4a] bg-[#1a1a2e] p-6">
         <p className="text-lg text-gray-100">{step.prompt}</p>
       </div>
 

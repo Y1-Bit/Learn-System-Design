@@ -236,39 +236,39 @@ export default function Canvas() {
     <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
       <div className="flex h-full flex-col">
         {/* Toolbar */}
-        <div className="flex items-center gap-2 border-b border-white/10 bg-[#111128] px-4 py-2">
+        <div className="flex items-center gap-2 border-b border-[#2a2a4a] bg-[#16162a] px-4 py-2">
           <button
             onClick={() => {
               setConnectMode((v) => !v);
               connectSourceRef.current = null;
             }}
             className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors
-              ${connectMode ? 'bg-purple-600 text-white' : 'bg-white/10 text-gray-300 hover:bg-white/15'}`}
+              ${connectMode ? 'bg-purple-600 text-white' : 'bg-[#2a2a4a]/60 text-gray-300 hover:bg-[#2a2a4a]'}`}
           >
             {connectMode ? 'Connecting...' : 'Connect'}
           </button>
-          <div className="mx-2 h-4 w-px bg-white/10" />
+          <div className="mx-2 h-4 w-px bg-[#2a2a4a]" />
           <button
             onClick={handleClear}
-            className="rounded-lg bg-white/10 px-3 py-1.5 text-xs text-gray-300 hover:bg-white/15"
+            className="rounded-lg bg-[#2a2a4a]/60 px-3 py-1.5 text-xs text-gray-300 hover:bg-[#2a2a4a]"
           >
             Clear Canvas
           </button>
           <button
             onClick={handleSave}
-            className="rounded-lg bg-white/10 px-3 py-1.5 text-xs text-gray-300 hover:bg-white/15"
+            className="rounded-lg bg-[#2a2a4a]/60 px-3 py-1.5 text-xs text-gray-300 hover:bg-[#2a2a4a]"
           >
             Save Design
           </button>
           <div className="relative">
             <button
               onClick={() => setLoadMenuOpen((v) => !v)}
-              className="rounded-lg bg-white/10 px-3 py-1.5 text-xs text-gray-300 hover:bg-white/15"
+              className="rounded-lg bg-[#2a2a4a]/60 px-3 py-1.5 text-xs text-gray-300 hover:bg-[#2a2a4a]"
             >
               Load Design
             </button>
             {loadMenuOpen && (
-              <div className="absolute left-0 top-full z-50 mt-1 min-w-48 rounded-lg border border-white/10 bg-[#1a1a2e] p-1 shadow-xl">
+              <div className="absolute left-0 top-full z-50 mt-1 min-w-48 rounded-lg border border-[#2a2a4a] bg-[#1a1a2e] p-1 shadow-xl">
                 {savedEntries.length === 0 ? (
                   <p className="px-3 py-2 text-xs text-gray-500">No saved designs</p>
                 ) : (
@@ -276,7 +276,7 @@ export default function Canvas() {
                     <button
                       key={key}
                       onClick={() => handleLoad(key)}
-                      className="flex w-full flex-col items-start rounded-md px-3 py-2 text-left hover:bg-white/10"
+                      className="flex w-full flex-col items-start rounded-md px-3 py-2 text-left hover:bg-[#2a2a4a]"
                     >
                       <span className="text-xs text-gray-200">{d.name}</span>
                       <span className="text-[10px] text-gray-500">

@@ -34,7 +34,7 @@ export default function SandboxComponent({
       className={`absolute flex flex-col items-center gap-1 rounded-xl px-4 py-3 select-none transition-shadow
         ${connectMode ? 'cursor-crosshair' : 'cursor-grab'}
         ${isDragging ? 'opacity-60 z-50' : 'z-10'}
-        ${selected ? 'ring-2 ring-purple-500 shadow-lg shadow-purple-500/20' : 'ring-1 ring-white/10'}`}
+        ${selected ? 'ring-2 ring-purple-500 shadow-lg shadow-purple-500/20' : 'ring-1 ring-[#2a2a4a]'}`}
       style={{
         left: instance.position.x,
         top: instance.position.y,

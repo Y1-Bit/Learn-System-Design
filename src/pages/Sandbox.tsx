@@ -19,7 +19,7 @@ export default function Sandbox() {
 
       {/* Exercise links section below canvas */}
       {exercises.length > 0 && (
-        <div className="border-t border-white/10 bg-[#111128] p-4">
+        <div className="border-t border-[#2a2a4a] bg-[#16162a] p-4">
           <h2 className="mb-3 text-sm font-semibold text-gray-300">
             Guided Exercises
           </h2>
@@ -28,7 +28,7 @@ export default function Sandbox() {
               <Link
                 key={ex.id}
                 to={`/exercises/${ex.id}`}
-                className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-white/10"
+                className="flex items-center gap-2 rounded-lg border border-[#2a2a4a] bg-[#1a1a2e] px-3 py-2 text-sm text-gray-300 transition-colors hover:bg-[#1f1f3a]"
               >
                 <span>{ex.title}</span>
                 <span

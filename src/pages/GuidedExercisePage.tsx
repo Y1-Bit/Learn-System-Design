@@ -13,7 +13,7 @@ export default function GuidedExercisePage() {
   if (!exercise) {
     return (
       <div className="flex flex-col items-center justify-center gap-4 p-16">
-        <h1 className="text-2xl font-bold text-white">Exercise not found</h1>
+        <h1 className="text-2xl font-bold text-gray-100">Exercise not found</h1>
         <p className="text-gray-400">
           The exercise you are looking for does not exist.
         </p>
@@ -44,7 +44,7 @@ export default function GuidedExercisePage() {
           &larr; Back to Sandbox
         </Link>
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-bold text-white">{exercise.title}</h1>
+          <h1 className="text-2xl font-bold text-gray-100">{exercise.title}</h1>
           <DifficultyBadge difficulty={exercise.difficulty} />
         </div>
         <p className="mt-2 text-gray-400">{exercise.description}</p>

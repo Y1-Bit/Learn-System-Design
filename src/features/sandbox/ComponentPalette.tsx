@@ -23,7 +23,7 @@ function PaletteItem({ def }: { def: SandboxComponentDef }) {
       {...listeners}
       {...attributes}
       className={`flex items-center gap-2 rounded-lg px-3 py-2 cursor-grab select-none transition-colors
-        ${isDragging ? 'opacity-50 bg-purple-900/40' : 'hover:bg-white/10 bg-white/5'}`}
+        ${isDragging ? 'opacity-50 bg-purple-900/40' : 'hover:bg-[#2a2a4a] bg-[#1a1a2e]'}`}
     >
       <span className="text-lg">{def.icon}</span>
       <span className="text-sm text-gray-300">{def.label}</span>
@@ -40,7 +40,7 @@ export default function ComponentPalette() {
 
   return (
     <aside
-      className="w-52 shrink-0 overflow-y-auto border-r border-white/10 p-3 flex flex-col gap-4"
+      className="w-52 shrink-0 overflow-y-auto border-r border-[#2a2a4a] p-3 flex flex-col gap-4"
       style={{ backgroundColor: '#1a1a2e' }}
     >
       <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-400">
