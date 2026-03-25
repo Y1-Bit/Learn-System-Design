@@ -6,7 +6,7 @@ import { useLanguage } from '../i18n';
 import { useTranslatedData } from '../hooks/useTranslatedData';
 import { useProgress } from '../hooks/useProgress';
 import Sidebar from '../components/Sidebar';
-import QuizEngine from '../features/quiz/QuizEngine';
+import { QuizEngine } from '../features/quiz';
 
 /** Map topicId to category based on known topic prefixes / ids */
 const TOPIC_CATEGORY: Record<string, Category> = {

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Canvas from '../features/sandbox/Canvas';
+import { Canvas } from '../features/sandbox';
 import { useTranslatedData } from '../hooks/useTranslatedData';
 import { useLanguage } from '../i18n';
 import { DIFF_KEYS, DIFFICULTY_STYLES } from '../constants';
