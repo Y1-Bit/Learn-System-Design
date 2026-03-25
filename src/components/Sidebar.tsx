@@ -1,0 +1,48 @@
+import { CATEGORY_LABELS, CATEGORY_COLORS } from '../types';
+import type { Category } from '../types';
+
+const categories = Object.keys(CATEGORY_LABELS) as Category[];
+
+interface SidebarProps {
+  selected: Category | null;
+  onSelect: (cat: Category | null) => void;
+}
+
+export default function Sidebar({ selected, onSelect }: SidebarProps) {
+  return (
+    <aside className="w-56 shrink-0 border-r border-[#2a2a4a] bg-[#16162a] p-4">
+      <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-gray-500">
+        Categories
+      </h2>
+
+      <button
+        onClick={() => onSelect(null)}
+        className={`mb-1 w-full rounded px-3 py-1.5 text-left text-sm transition-colors ${
+          selected === null
+            ? 'bg-purple-500/20 text-purple-300'
+            : 'text-gray-400 hover:text-gray-200'
+        }`}
+      >
+        All
+      </button>
+
+      {categories.map((cat) => (
+        <button
+          key={cat}
+          onClick={() => onSelect(cat)}
+          className={`mb-1 flex w-full items-center gap-2 rounded px-3 py-1.5 text-left text-sm transition-colors ${
+            selected === cat
+              ? 'bg-purple-500/20 text-purple-300'
+              : 'text-gray-400 hover:text-gray-200'
+          }`}
+        >
+          <span
+            className="inline-block h-2.5 w-2.5 rounded-full"
+            style={{ backgroundColor: CATEGORY_COLORS[cat] }}
+          />
+          {CATEGORY_LABELS[cat]}
+        </button>
+      ))}
+    </aside>
+  );
+}
